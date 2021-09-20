@@ -6,7 +6,8 @@ public class PlayerAction : MonoBehaviour
 {
     // Start is called before the first frame update
     public float speed;
-    
+    public GameManagerScript manager;
+
     float h;
     float v;
     bool isHorizonMove;
@@ -27,15 +28,14 @@ public class PlayerAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        h = manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        v = manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
-        bool hDown = Input.GetButtonDown("Horizontal");
-        bool vDown = Input.GetButtonDown("Vertical");
-        bool hUp = Input.GetButtonUp("Horizontal");
-        bool vUp = Input.GetButtonUp("Vertical");
-        bool hOn = Input.GetButton("Horizontal");
-        bool vOn = Input.GetButton("Vertical");
+        bool hDown = manager.isAction ? false : Input.GetButtonDown("Horizontal");
+        bool vDown = manager.isAction ? false : Input.GetButtonDown("Vertical");
+        bool hUp = manager.isAction ? false :Input.GetButtonUp("Horizontal");
+        bool vUp = manager.isAction ? false :Input.GetButtonUp("Vertical");
+
 
         //Check Horizontal Move
         if (hDown)
@@ -80,7 +80,7 @@ public class PlayerAction : MonoBehaviour
         //raycast된 오브젝트 scan
         if(Input.GetButtonDown("Jump") && scanObject != null)
         {
-            Debug.Log(scanObject.name);
+            manager.Action(scanObject);
         }
     }
 
